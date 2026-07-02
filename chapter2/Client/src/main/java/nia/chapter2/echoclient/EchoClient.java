@@ -4,7 +4,10 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.IoHandlerFactory;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
@@ -26,7 +29,9 @@ public class EchoClient {
 
     public void start()
         throws Exception {
-        EventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.1: EventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+        EventLoopGroup group = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
         try {
             //创建 Bootstrap
             Bootstrap b = new Bootstrap();

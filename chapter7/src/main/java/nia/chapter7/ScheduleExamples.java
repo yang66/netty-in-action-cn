@@ -93,7 +93,7 @@ public class ScheduleExamples {
                         System.out.println("Run every 60 seconds");
                     }
                 }, 60, 60, TimeUnit.SECONDS);
-        // Some other code that runs...
+        // 其他需要执行的代码...
         boolean mayInterruptIfRunning = false;
         //取消该任务，防止它再次运行
         future.cancel(mayInterruptIfRunning);

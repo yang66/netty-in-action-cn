@@ -5,6 +5,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.handler.ssl.SslContext;
+// Netty 4.2: SelfSignedCertificate 已被弃用，推荐使用 netty-pkitesting 模块的 CertificateBuilder
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 import java.net.InetSocketAddress;
@@ -35,6 +36,8 @@ public class SecureChatServer extends ChatServer {
             System.exit(1);
         }
         int port = Integer.parseInt(args[0]);
+        // Netty 4.2: SelfSignedCertificate 已被弃用，推荐使用 netty-pkitesting 模块的 CertificateBuilder
+        @SuppressWarnings("deprecation")
         SelfSignedCertificate cert = new SelfSignedCertificate();
         SslContext context = SslContext.newServerContext(
                 cert.certificate(), cert.privateKey());

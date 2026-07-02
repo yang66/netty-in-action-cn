@@ -2,7 +2,9 @@ package nia.chapter13;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 
 import java.net.InetSocketAddress;
@@ -17,7 +19,9 @@ public class LogEventMonitor {
     private final Bootstrap bootstrap;
 
     public LogEventMonitor(InetSocketAddress address) {
-        group = new NioEventLoopGroup();
+        // Netty 4.1: group = new NioEventLoopGroup();
+        // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+        group = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
         bootstrap = new Bootstrap();
         //引导该 NioDatagramChannel
         bootstrap.group(group)

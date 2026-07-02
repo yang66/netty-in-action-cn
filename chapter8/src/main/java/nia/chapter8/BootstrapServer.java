@@ -6,7 +6,9 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.net.InetSocketAddress;
@@ -23,7 +25,9 @@ public class BootstrapServer {
      * 代码清单 8-4 引导服务器
      * */
     public void bootstrap() {
-        NioEventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.1: NioEventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+        MultiThreadIoEventLoopGroup group = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
         //创建 Server Bootstrap
         ServerBootstrap bootstrap = new ServerBootstrap();
         //设置 EventLoopGroup，其提供了用于处理 Channel 事件的EventLoop

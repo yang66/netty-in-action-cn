@@ -7,7 +7,9 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.ImmediateEventExecutor;
 
@@ -22,7 +24,9 @@ public class ChatServer {
     //创建 DefaultChannelGroup，其将保存所有已经连接的 WebSocket Channel
     private final ChannelGroup channelGroup =
         new DefaultChannelGroup(ImmediateEventExecutor.INSTANCE);
-    private final EventLoopGroup group = new NioEventLoopGroup();
+    // Netty 4.1: private final EventLoopGroup group = new NioEventLoopGroup();
+    // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+    private final EventLoopGroup group = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
     private Channel channel;
 
     public ChannelFuture start(InetSocketAddress address) {

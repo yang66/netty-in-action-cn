@@ -25,7 +25,7 @@ public class LengthBasedInitializer extends ChannelInitializer<Channel> {
         @Override
         public void channelRead0(ChannelHandlerContext ctx,
              ByteBuf msg) throws Exception {
-            // Do something with the frame
+            // 处理帧数据
             //处理帧的数据
         }
     }

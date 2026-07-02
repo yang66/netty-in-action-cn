@@ -36,7 +36,7 @@ public class ProtoBufInitializer extends ChannelInitializer<Channel> {
         @Override
         public void channelRead0(ChannelHandlerContext ctx, Object msg)
             throws Exception {
-            // Do something with the object
+            // 处理对象
         }
     }
 }

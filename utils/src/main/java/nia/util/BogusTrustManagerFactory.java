@@ -24,18 +24,18 @@ public class BogusTrustManagerFactory
         @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType)
             throws CertificateException {
-            // Always trust - it is an example.
-            // You should do something in the real world.
-            // You will reach here only if you enabled client certificate auth,
-            // as described in SecureChatSslContextFactory.
+            // 始终信任 - 这只是一个示例。
+            // 在生产环境中你应该做真正的验证。
+            // 只有启用了客户端证书认证时才会到达这里，
+            // 如 SecureChatSslContextFactory 中所述。
             System.err.println("UNKNOWN CLIENT CERTIFICATE: " + chain[0].getSubjectDN());
         }
 
         @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType)
             throws CertificateException {
-            // Always trust - it is an example.
-            // You should do something in the real world.
+            // 始终信任 - 这只是一个示例。
+            // 在生产环境中你应该做真正的验证。
             System.err.println("UNKNOWN SERVER CERTIFICATE: " + chain[0].getSubjectDN());
         }
     };

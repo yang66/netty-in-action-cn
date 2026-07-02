@@ -2,7 +2,9 @@ package nia.chapter8;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
@@ -23,7 +25,10 @@ public class BootstrapWithInitializer {
         //创建 ServerBootstrap 以创建和绑定新的 Channel
         ServerBootstrap bootstrap = new ServerBootstrap();
         //设置 EventLoopGroup，其将提供用以处理 Channel 事件的 EventLoop
-        bootstrap.group(new NioEventLoopGroup(), new NioEventLoopGroup())
+        // Netty 4.1: bootstrap.group(new NioEventLoopGroup(), new NioEventLoopGroup())
+        // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+        bootstrap.group(new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory()),
+                new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory()))
             //指定 Channel 的实现
             .channel(NioServerSocketChannel.class)
             //注册一个 ChannelInitializerImpl 的实例来设置 ChannelPipeline

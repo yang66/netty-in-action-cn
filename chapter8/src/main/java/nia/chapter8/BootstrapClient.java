@@ -3,7 +3,9 @@ package nia.chapter8;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.net.InetSocketAddress;
@@ -24,8 +26,9 @@ public class BootstrapClient {
      * 代码清单 8-1 引导一个客户端
      * */
     public void bootstrap() {
-        //设置 EventLoopGroup，提供用于处理 Channel 事件的 EventLoop
-        EventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.1: EventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+        EventLoopGroup group = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
         //创建一个Bootstrap类的实例以创建和连接新的客户端Channel
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(group)

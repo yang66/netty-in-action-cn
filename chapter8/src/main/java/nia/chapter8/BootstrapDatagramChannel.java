@@ -5,6 +5,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+// Netty 4.2: OioEventLoopGroup 已被弃用，阻塞 I/O 传输不再推荐使用
 import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.channel.socket.oio.OioDatagramChannel;
@@ -22,10 +23,11 @@ public class BootstrapDatagramChannel {
     /**
      * 代码清单 8-8 使用 Bootstrap 和 DatagramChannel
      */
+    @SuppressWarnings("deprecation")
     public void bootstrap() {
         //创建一个 Bootstrap 的实例以创建和绑定新的数据报 Channel
         Bootstrap bootstrap = new Bootstrap();
-        //设置 EventLoopGroup，其提供了用以处理 Channel 事件的 EventLoop
+        // Netty 4.2: OioEventLoopGroup 已被弃用，阻塞 I/O 传输不再推荐使用
         bootstrap.group(new OioEventLoopGroup()).channel(
             //指定 Channel 的实现
             OioDatagramChannel.class).handler(
@@ -34,7 +36,7 @@ public class BootstrapDatagramChannel {
                 @Override
                 public void channelRead0(ChannelHandlerContext ctx,
                     DatagramPacket msg) throws Exception {
-                    // Do something with the packet
+                    // 处理数据报包
                 }
             }
         );

@@ -6,7 +6,9 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 
@@ -28,7 +30,9 @@ public class BootstrapClientWithOptionsAndAttrs {
         //创建一个 Bootstrap 类的实例以创建客户端 Channel 并连接它们
         Bootstrap bootstrap = new Bootstrap();
         //设置 EventLoopGroup，其提供了用以处理 Channel 事件的 EventLoop
-        bootstrap.group(new NioEventLoopGroup())
+        // Netty 4.1: bootstrap.group(new NioEventLoopGroup())
+        // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+        bootstrap.group(new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory()))
             //指定 Channel 的实现
             .channel(NioSocketChannel.class)
             .handler(
@@ -39,7 +43,7 @@ public class BootstrapClientWithOptionsAndAttrs {
                         throws Exception {
                         //使用 AttributeKey 检索属性以及它的值
                         Integer idValue = ctx.channel().attr(id).get();
-                        // do something with the idValue
+                        // 使用 idValue 执行相关操作
                     }
 
                     @Override

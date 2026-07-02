@@ -68,7 +68,7 @@ public class CmdHandlerInitializer extends ChannelInitializer<Channel> {
         @Override
         public void channelRead0(ChannelHandlerContext ctx, Cmd msg)
             throws Exception {
-            // Do something with the command
+            // 处理命令
             //处理传经 ChannelPipeline 的 Cmd 对象
         }
     }

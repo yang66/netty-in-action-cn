@@ -4,7 +4,9 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 
 import java.io.File;
@@ -22,7 +24,9 @@ public class LogEventBroadcaster {
     private final File file;
 
     public LogEventBroadcaster(InetSocketAddress address, File file) {
-        group = new NioEventLoopGroup();
+        // Netty 4.1: group = new NioEventLoopGroup();
+        // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+        group = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
         bootstrap = new Bootstrap();
         //引导该 NioDatagramChannel（无连接的）
         bootstrap.group(group).channel(NioDatagramChannel.class)
@@ -40,11 +44,11 @@ public class LogEventBroadcaster {
         for (;;) {
             long len = file.length();
             if (len < pointer) {
-                // file was reset
+                //文件被重置
                 //如果有必要，将文件指针设置到该文件的最后一个字节
                 pointer = len;
             } else if (len > pointer) {
-                // Content was added
+                //有新内容被添加
                 RandomAccessFile raf = new RandomAccessFile(file, "r");
                 //设置当前的文件指针，以确保没有任何的旧日志被发送
                 raf.seek(pointer);

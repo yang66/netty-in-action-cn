@@ -6,7 +6,9 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.oio.OioSocketChannel;
 
 import java.net.InetSocketAddress;
@@ -27,7 +29,9 @@ public class InvalidBootstrapClient {
      * 代码清单 8-3 不兼容的 Channel 和 EventLoopGroup
      * */
     public void bootstrap() {
-        EventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.1: EventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+        EventLoopGroup group = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
         //创建一个新的 Bootstrap 类的实例，以创建新的客户端Channel
         Bootstrap bootstrap = new Bootstrap();
         //指定一个适用于 NIO 的 EventLoopGroup 实现

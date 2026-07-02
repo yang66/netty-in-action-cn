@@ -24,11 +24,11 @@ public final class BogusSslContextFactory {
             KeyStore ks = KeyStore.getInstance("JKS");
             ks.load(BogusKeyStore.asInputStream(), BogusKeyStore.getKeyStorePassword());
 
-            // Set up key manager factory to use our key store
+            // 设置密钥管理器工厂以使用我们的密钥库
             KeyManagerFactory kmf = KeyManagerFactory.getInstance(algorithm);
             kmf.init(ks, BogusKeyStore.getCertificatePassword());
 
-            // Initialize the SSLContext to work with our key managers.
+            // 初始化 SSLContext 以使用我们的密钥管理器
             serverContext = SSLContext.getInstance(PROTOCOL);
             serverContext.init(kmf.getKeyManagers(), null, null);
         } catch (Exception e) {
@@ -38,7 +38,7 @@ public final class BogusSslContextFactory {
     }
 
     private BogusSslContextFactory() {
-        // Unused
+        // 未使用
     }
 
     public static SSLContext getServerContext() {

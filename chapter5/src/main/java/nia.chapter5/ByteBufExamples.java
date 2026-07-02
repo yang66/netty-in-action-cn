@@ -56,7 +56,7 @@ public class ByteBufExamples {
      * 代码清单 5-1 支撑数组
      */
     public static void heapBuffer() {
-        ByteBuf heapBuf = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
+        ByteBuf heapBuf = BYTE_BUF_FROM_SOMEWHERE; //从某处获取引用
         //检查 ByteBuf 是否有一个支撑数组
         if (heapBuf.hasArray()) {
             //如果有，则获取对该数组的引用
@@ -74,7 +74,7 @@ public class ByteBufExamples {
      * 代码清单 5-2 访问直接缓冲区的数据
      */
     public static void directBuffer() {
-        ByteBuf directBuf = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
+        ByteBuf directBuf = BYTE_BUF_FROM_SOMEWHERE; //从某处获取引用
         //检查 ByteBuf 是否由数组支撑。如果不是，则这是一个直接缓冲区
         if (!directBuf.hasArray()) {
             //获取可读字节数
@@ -92,10 +92,10 @@ public class ByteBufExamples {
      * 代码清单 5-3 使用 ByteBuffer 的复合缓冲区模式
      */
     public static void byteBufferComposite(ByteBuffer header, ByteBuffer body) {
-        // Use an array to hold the message parts
+        // 使用数组来保存消息的各个部分
         ByteBuffer[] message =  new ByteBuffer[]{ header, body };
 
-        // Create a new ByteBuffer and use copy to merge the header and body
+        // 创建一个新的 ByteBuffer 并使用复制来合并 header 和 body
         ByteBuffer message2 =
                 ByteBuffer.allocate(header.remaining() + body.remaining());
         message2.put(header);
@@ -141,7 +141,7 @@ public class ByteBufExamples {
      * 代码清单 5-6 访问数据
      */
     public static void byteBufRelativeAccess() {
-        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
+        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //从某处获取引用
         for (int i = 0; i < buffer.capacity(); i++) {
             byte b = buffer.getByte(i);
             System.out.println((char) b);
@@ -152,7 +152,7 @@ public class ByteBufExamples {
      * 代码清单 5-7 读取所有数据
      */
     public static void readAllData() {
-        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
+        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //从某处获取引用
         while (buffer.isReadable()) {
             System.out.println(buffer.readByte());
         }
@@ -162,8 +162,8 @@ public class ByteBufExamples {
      * 代码清单 5-8 写数据
      */
     public static void write() {
-        // Fills the writable bytes of a buffer with random integers.
-        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
+        // 用随机整数填充缓冲区的可写字节
+        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //从某处获取引用
         while (buffer.writableBytes() >= 4) {
             buffer.writeInt(random.nextInt());
         }
@@ -175,7 +175,7 @@ public class ByteBufExamples {
      * use {@link io.netty.util.ByteProcessor in Netty 4.1.x}
      */
     public static void byteProcessor() {
-        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
+        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //从某处获取引用
         int index = buffer.forEachByte(ByteProcessor.FIND_CR);
     }
 
@@ -185,7 +185,7 @@ public class ByteBufExamples {
      * use {@link io.netty.buffer.ByteBufProcessor in Netty 4.0.x}
      */
     public static void byteBufProcessor() {
-        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
+        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //从某处获取引用
         int index = buffer.forEachByte(ByteBufProcessor.FIND_CR);
     }
 
@@ -270,11 +270,11 @@ public class ByteBufExamples {
      * 代码清单 5-14 获取一个到 ByteBufAllocator 的引用
      */
     public static void obtainingByteBufAllocatorReference(){
-        Channel channel = CHANNEL_FROM_SOMEWHERE; //get reference form somewhere
+        Channel channel = CHANNEL_FROM_SOMEWHERE; //从某处获取引用
         //从 Channel 获取一个到ByteBufAllocator 的引用
         ByteBufAllocator allocator = channel.alloc();
         //...
-        ChannelHandlerContext ctx = CHANNEL_HANDLER_CONTEXT_FROM_SOMEWHERE; //get reference form somewhere
+        ChannelHandlerContext ctx = CHANNEL_HANDLER_CONTEXT_FROM_SOMEWHERE; //从某处获取引用
         //从 ChannelHandlerContext 获取一个到 ByteBufAllocator 的引用
         ByteBufAllocator allocator2 = ctx.alloc();
         //...
@@ -284,7 +284,7 @@ public class ByteBufExamples {
      * 代码清单 5-15 引用计数
      * */
     public static void referenceCounting(){
-        Channel channel = CHANNEL_FROM_SOMEWHERE; //get reference form somewhere
+        Channel channel = CHANNEL_FROM_SOMEWHERE; //从某处获取引用
         //从 Channel 获取ByteBufAllocator
         ByteBufAllocator allocator = channel.alloc();
         //...
@@ -299,7 +299,7 @@ public class ByteBufExamples {
      * 代码清单 5-16 释放引用计数的对象
      */
     public static void releaseReferenceCountedObject(){
-        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //get reference form somewhere
+        ByteBuf buffer = BYTE_BUF_FROM_SOMEWHERE; //从某处获取引用
         //减少到该对象的活动引用。当减少到 0 时，该对象被释放，并且该方法返回 true
         boolean released = buffer.release();
         //...

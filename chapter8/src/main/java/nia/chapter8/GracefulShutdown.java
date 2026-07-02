@@ -3,7 +3,9 @@ package nia.chapter8;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
+// Netty 4.1: import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.MultiThreadIoEventLoopGroup;
+import io.netty.channel.nio.NioIoHandler;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 
@@ -25,8 +27,9 @@ public class GracefulShutdown {
      * 代码清单 8-9 优雅关闭
      */
     public void bootstrap() {
-        //创建处理 I/O 的EventLoopGroup
-        EventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.1: EventLoopGroup group = new NioEventLoopGroup();
+        // Netty 4.2: 使用 MultiThreadIoEventLoopGroup + NioIoHandler 替代已弃用的 NioEventLoopGroup
+        EventLoopGroup group = new MultiThreadIoEventLoopGroup(NioIoHandler.newFactory());
         //创建一个 Bootstrap 类的实例并配置它
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(group)
@@ -46,7 +49,7 @@ public class GracefulShutdown {
         //,,,
         //shutdownGracefully()方法将释放所有的资源，并且关闭所有的当前正在使用中的 Channel
         Future<?> future = group.shutdownGracefully();
-        // block until the group has shutdown
+        //阻塞等待，直到该 group 已经关闭
         future.syncUninterruptibly();
     }
 }

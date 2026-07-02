@@ -26,7 +26,7 @@ public class LineBasedHandlerInitializer extends ChannelInitializer<Channel>
         //传入了单个帧的内容
         public void channelRead0(ChannelHandlerContext ctx,
             ByteBuf msg) throws Exception {
-            // Do something with the data extracted from the frame
+            // 处理从帧中提取的数据
         }
     }
 }

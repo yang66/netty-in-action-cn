@@ -17,6 +17,6 @@ public class SimpleDiscardHandler
     public void channelRead0(ChannelHandlerContext ctx,
         Object msg) {
         //不需要任何显式的资源释放
-        // No need to do anything special
+        // 不需要做任何特殊处理
     }
 }
